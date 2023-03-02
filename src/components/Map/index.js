@@ -1,18 +1,21 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import MapLibreGL from '@maplibre/maplibre-react-native';
-import { Image } from 'react-native';
 
 import Marker from '../Marker/';
 import PolygonLayer from '../Polygon';
 import LineLayer from '../LineString';
 
+
+import vietmap_api from '../../config/env';
+
+
+
 MapLibreGL.setAccessToken(null);
+const vietmapapi = vietmap_api.Token;
 
-
-const token = "c0faa23a3ec54da8f8ccd840c472032746264eeb6fa1a74b"
+// console.log(vietmapapi);
 const styles = StyleSheet.create({
     map: {
         flex: 1,
@@ -42,7 +45,7 @@ export default class Map extends Component {
                     maxZoomLevel={18}
                     id="raster-id"
                     tileUrlTemplates={[
-                        `https://maps.vietmap.vn/tm/{z}/{x}/{y}@2x.png?apikey=${token}`,
+                        `https://maps.vietmap.vn/tm/{z}/{x}/{y}@2x.png?apikey=${vietmapapi}`,
                     ]}>
                     <MapLibreGL.RasterLayer
                         maxZoomLevel={18}
