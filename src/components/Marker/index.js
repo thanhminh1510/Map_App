@@ -4,7 +4,6 @@ import React from 'react';
 import { View } from 'react-native';
 import MapLibreGL from '@maplibre/maplibre-react-native';
 import { Image } from 'react-native';
-
 const Marker = ({ id, coordinate, x, y }) => {
     return (
         <MapLibreGL.MarkerView
