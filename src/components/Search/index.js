@@ -3,8 +3,6 @@ import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-
-
     input: {
         borderRadius: 10,
         margin: 10,

@@ -6,6 +6,9 @@ import { StyleSheet, View } from 'react-native';
 import Map from './src/components/Map';
 // Will be null for most users (only Mapbox authenticates this way).
 // Required on Android. See Android installation notes.
+import { useState, useEffect } from 'react';
+import MapLibreGL from '@maplibre/maplibre-react-native';
+
 
 const styles = StyleSheet.create({
   page: {
@@ -20,12 +23,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class App extends Component {
-  render() {
-    return (
-      <View style={styles.page}>
-        <Map />
-      </View>
-    );
-  }
+const App = () => {
+  // console.log(data);
+  return (
+    <View style={styles.page}>
+      <Map />
+    </View>
+  );
 }
+export default App;
