@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 import React, { Component, useState, useEffect } from 'react';
@@ -6,8 +8,8 @@ import { View, TextInput, StyleSheet } from 'react-native';
 
 import SearchInput from '../Search';
 
-
-import Marker from '../Marker/';
+import { Image } from 'react-native';
+// import Marker from '../Marker';
 import PolygonLayer from '../Polygon';
 import LineLayer from '../LineString';
 
@@ -15,7 +17,6 @@ import LineLayer from '../LineString';
 import axios from 'axios';
 
 import vietmap_api from '../../config/env';
-import { set } from 'react-native-reanimated';
 
 
 
@@ -26,78 +27,98 @@ const vietmapapi = vietmap_api.Token;
 
 const styles = StyleSheet.create({
     container: {
-        position: 'relative', width: '100%', height: '100%',
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'white',
     },
     map: {
         flex: 1,
-        alignSelf: 'stretch',
-        zIndex: 1,
     },
 });
 
 
 function Map() {
-    let newaddressdata = [];
-    const [viewport, setViewport] = useState({
-        latitude: 10.870261764182892,
-        longtitude: 106.80298972384487,
-        zoom: 16,
-    })
-    const [AddressMarker, setAddressMarker] = useState([]);
+
+    // const [viewport, setViewport] = useState({
+    //     latitude: 10.870261764182892,
+    //     longtitude: 106.80298972384487,
+    //     zoom: 16,
+    // })
+    const [addressMarker, setAddressMarker] = useState([]);
 
 
     // Custom data
     const addressData = [
-        { id: 1, address: 'Thành Phố Hồ Chí Minh' },
+        { id: 1, address: 'Đại học Công nghệ thông tin Thành Phố Hồ Chí Minh' },
+        { id: 2, address: 'Trường Đại học Khoa học Tự nhiên Thành Phố Hồ Chí Minh' },
     ];
 
 
 
     useEffect(() => {
-        addressData.map((address) => {
-            axios.get(`https://maps.vietmap.vn/api/search?api-version=1.1&apikey=${vietmapapi}&text=${address.address}`)
-                .then(function (response) {
-                    return response.data.data.features[0].geometry.coordinates;
-                })
-                .then(function (response) {
-                    // handle successr
-                    // console.log(response);
-                    newaddressdata.push({
-                        ...address,
-                        longtitude: response[0],
-                        latitude: response[1],
-                    }
-                    );
-                    // console.log(newaddressdata);
-                })
-                .catch(function (error) {
-                    // handle error
-                    console.log(error);
-                })
-                .finally(function () {
-                    // always executed
-                });
-        });
-        setAddressMarker(newaddressdata);
+
+        const getData = async () => {
+            await addressData.map((address) => {
+                axios.get(`https://maps.vietmap.vn/api/search?api-version=1.1&apikey=${vietmapapi}&text=${address.address}`)
+                    .then(function (response) {
+                        return response.data.data.features[0].geometry.coordinates;
+                    })
+                    .then(function (response) {
+                        // handle successr
+                        // console.log(response);
+                        setAddressMarker([...addressMarker, { ...address, coordinate: [response[0], response[1]] }])
+                        // console.log(newaddressdata);
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+                    .finally(function () {
+                        // always executed
+                    });
+            });
+            // console.log('newaddressdata: ', newaddressdata);
+        }
+        getData()
     }, []);
 
+    console.log('String: ', addressMarker);
     return (
         <View style={styles.container}>
-            <SearchInput />
-
-
             <MapLibreGL.MapView
                 style={styles.map}
                 logoEnabled={false}
                 styleURL="https://demotiles.maplibre.org/style.json" >
+                {
+                    addressMarker.map((value, index) => {
+                        return (< MapLibreGL.MarkerView
+                            key={index}
+                            coordinate={value.coordinate}
+                            x={0}
+                            y={0}
+                            anchor={{ x: 0, y: 0.5 }}
+                        >
+                            <View>
+                                <Image
+                                    style={{ height: 50, width: 50 }}
+                                    source={require('../../accest/img/map-marker-icon.png')}
+                                />
+                            </View>
+                        </MapLibreGL.MarkerView>
+                        )
+                    }
+                    )
+                }
 
-                {/* {AddressMarker.map(() => { <Marker id={'id'} coordinate={[106.80298972384487, 10.870261764182892]} /> })} */}
+
+
+
                 <MapLibreGL.Camera
-                    zoomLevel={15}
+                    zoomLevel={10}
                     maxZoomLevel={18}
                     animationMode={'flyTo'}
                     animationDuration={1100}
-                    centerCoordinate={[106.80298972384487, 10.870261764182892]}
+                    centerCoordinate={[106.8008250530943, 10.876258630954924]}
                 />
                 <MapLibreGL.RasterSource
                     maxZoomLevel={18}
@@ -111,20 +132,8 @@ function Map() {
                         sourceID="source-id-example"
                     />
                 </MapLibreGL.RasterSource>
-                <PolygonLayer coordinates={[
-                    [106.80206704392388, 10.870440881661025],
-                    [106.80231380715765, 10.869597974943082],
-                    [106.80330086009269, 10.869313493388347],
-                    [106.80379438656021, 10.869260811589184],
-                    [106.80421281117398, 10.86981923818704],
-                ]} />
-                <LineLayer
-                    coordinates={[
-                        [[106.80298972384487, 10.870261764182892]]
-                    ]}
-                />
             </MapLibreGL.MapView>
-        </View>
+        </View >
     )
 }
 export default Map;
