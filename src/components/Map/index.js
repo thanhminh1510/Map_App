@@ -9,7 +9,7 @@ import { View, TextInput, StyleSheet } from 'react-native';
 import SearchInput from '../Search';
 
 import { Image } from 'react-native';
-// import Marker from '../Marker';
+import Marker from '../Marker';
 import PolygonLayer from '../Polygon';
 import LineLayer from '../LineString';
 
@@ -91,20 +91,14 @@ function Map() {
                 styleURL="https://demotiles.maplibre.org/style.json" >
                 {
                     addressMarker.map((value, index) => {
-                        return (< MapLibreGL.MarkerView
-                            key={index}
-                            coordinate={value.coordinate}
-                            x={0}
-                            y={0}
-                            anchor={{ x: 0, y: 0.5 }}
-                        >
-                            <View>
-                                <Image
-                                    style={{ height: 50, width: 50 }}
-                                    source={require('../../accest/img/map-marker-icon.png')}
-                                />
-                            </View>
-                        </MapLibreGL.MarkerView>
+                        return (
+                            <Marker
+                                key={value.id}
+                                id={value.id}
+                                coordinate={value.coordinate}
+                                x={0}
+                                y={0}
+                            />
                         )
                     }
                     )
