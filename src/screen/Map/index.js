@@ -6,11 +6,11 @@ import React, { Component, useState, useEffect } from 'react';
 import MapLibreGL from '@maplibre/maplibre-react-native';
 import { View, StyleSheet } from 'react-native';
 
-import Marker from '../Marker';
+import Marker from '../../components/Marker';
 // import PolygonLayer from '../Polygon';
 // import LineLayer from '../LineString';
 
-import TabTwoScreen from '../../screen';
+import TabTwoScreen from '../Autocomplete';
 
 // Initialize the module (needs to be done only once)
 import axios from 'axios';
@@ -85,7 +85,8 @@ function Map() {
 
     return (
         <View style={styles.container}>
-            <TabTwoScreen />
+        
+            {/* <TabTwoScreen /> */}
             <MapLibreGL.MapView
                 style={styles.map}
                 logoEnabled={false}

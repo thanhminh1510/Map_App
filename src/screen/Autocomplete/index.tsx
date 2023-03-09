@@ -14,8 +14,8 @@ import {
     View,
 } from "react-native";
 
-import vietmap_api from "../config/env";
-import { Location } from "../types/location";
+import vietmap_api from "../../config/env";
+import { Location } from "../../types/location";
 const vietmapapi = vietmap_api.Token;
 
 

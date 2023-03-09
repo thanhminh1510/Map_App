@@ -3,7 +3,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import Map from './src/components/Map';
+import Map from './src/screen/Map';
 // Will be null for most users (only Mapbox authenticates this way).
 // Required on Android. See Android installation notes.
 import { useState, useEffect } from 'react';
