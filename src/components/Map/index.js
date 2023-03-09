@@ -4,14 +4,13 @@
 /* eslint-disable prettier/prettier */
 import React, { Component, useState, useEffect } from 'react';
 import MapLibreGL from '@maplibre/maplibre-react-native';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
-import SearchInput from '../Search';
-
-import { Image } from 'react-native';
 import Marker from '../Marker';
-import PolygonLayer from '../Polygon';
-import LineLayer from '../LineString';
+// import PolygonLayer from '../Polygon';
+// import LineLayer from '../LineString';
+
+import TabTwoScreen from '../../screen';
 
 // Initialize the module (needs to be done only once)
 import axios from 'axios';
@@ -51,6 +50,7 @@ function Map() {
     const addressData = [
         { id: 1, address: 'Đại học Công nghệ thông tin Thành Phố Hồ Chí Minh' },
         { id: 2, address: 'Trường Đại học Khoa học Tự nhiên Thành Phố Hồ Chí Minh' },
+        { id: 3, address: 'Cầu Thủ Thiêm' },
     ];
 
 
@@ -59,6 +59,7 @@ function Map() {
 
         const getData = async () => {
             await addressData.map((address) => {
+
                 axios.get(`https://maps.vietmap.vn/api/search?api-version=1.1&apikey=${vietmapapi}&text=${address.address}`)
                     .then(function (response) {
                         return response.data.data.features[0].geometry.coordinates;
@@ -77,14 +78,14 @@ function Map() {
                         // always executed
                     });
             });
-            // console.log('newaddressdata: ', newaddressdata);
         }
         getData()
+
     }, []);
 
-    console.log('String: ', addressMarker);
     return (
         <View style={styles.container}>
+            <TabTwoScreen />
             <MapLibreGL.MapView
                 style={styles.map}
                 logoEnabled={false}
@@ -93,11 +94,12 @@ function Map() {
                     addressMarker.map((value, index) => {
                         return (
                             <Marker
-                                key={value.id}
+                                key={index}
                                 id={value.id}
                                 coordinate={value.coordinate}
                                 x={0}
                                 y={0}
+                                address={value.address}
                             />
                         )
                     }
