@@ -14,8 +14,10 @@ import {
     View,
 } from "react-native";
 
-
+import vietmap_api from "../config/env";
 import { Location } from "../types/location";
+const vietmapapi = vietmap_api.Token;
+
 
 export default function TabTwoScreen() {
     const [input, setInput] = useState<string>();
@@ -25,7 +27,7 @@ export default function TabTwoScreen() {
         setInput(text);
         // get host from localhost:19002 above the qrcode
         if (text.length > 2) {
-            const endpoint = `https://maps.vietmap.vn/api/autocomplete?api-version=1.1&apikey=c0faa23a3ec54da8f8ccd840c472032746264eeb6fa1a74b&focus.point.lat=10.794567615086677&focus.point.lon=106.63550558739446&region=Thành Phố Hồ Chí Minh&text=${input}`;
+            const endpoint = `https://maps.vietmap.vn/api/autocomplete?api-version=1.1&apikey=${vietmapapi}&focus.point.lat=10.794567615086677&focus.point.lon=106.63550558739446&region=Thành Phố Hồ Chí Minh&text=${input}`;
             let res = await fetch(endpoint);
             if (res) {
                 // console.log(res);
