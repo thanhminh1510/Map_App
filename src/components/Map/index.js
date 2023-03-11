@@ -59,7 +59,6 @@ function Map() {
 
         const getData = async () => {
             await addressData.map((address) => {
-
                 axios.get(`https://maps.vietmap.vn/api/search?api-version=1.1&apikey=${vietmapapi}&text=${address.address}`)
                     .then(function (response) {
                         return response.data.data.features[0].geometry.coordinates;
@@ -85,7 +84,7 @@ function Map() {
 
     return (
         <View style={styles.container}>
-        
+
             {/* <TabTwoScreen /> */}
             <MapLibreGL.MapView
                 style={styles.map}

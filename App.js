@@ -1,34 +1,18 @@
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable no-unused-vars */
-/* eslint-disable prettier/prettier */
-import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
-import Map from './src/screen/Map';
-// Will be null for most users (only Mapbox authenticates this way).
-// Required on Android. See Android installation notes.
-import { useState, useEffect } from 'react';
-import MapLibreGL from '@maplibre/maplibre-react-native';
+import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
 
 
-const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  map: {
-    flex: 1,
-    alignSelf: 'stretch',
-  },
-});
+import { Home, Restaurants } from './src/screen';
+import Navigation from './src/navigation/tabs';
+
+const Stack = createStackNavigator();
 
 const App = () => {
-  // console.log(data);
+
   return (
-    <View style={styles.page}>
-      <Map />
-    </View>
-  );
+    <Navigation />
+  )
 }
+
 export default App;
